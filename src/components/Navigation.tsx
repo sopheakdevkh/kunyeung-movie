@@ -246,7 +246,7 @@ export default function Navigation({
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-amber-300 hover:text-amber-200 bg-gradient-to-r from-amber-500/15 to-red-500/15 hover:from-amber-500/25 hover:to-red-500/25 border border-amber-400/30 transition-all shadow-[0_0_12px_rgba(245,158,11,0.15)] ml-1 hover:scale-105 active:scale-95"
             >
               <Crown className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span>VIP Club</span>
+              <span>VIP Plan</span>
             </Link>
           </nav>
         </div>
@@ -548,7 +548,7 @@ export default function Navigation({
                     <div className="space-y-1 py-1">
                       <div className="px-3 py-1.5 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-300 flex items-center space-x-2">
                         <Crown className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                        <span className="text-[11px] font-bold">Active VIP Club Membership</span>
+                        <span className="text-[11px] font-bold">Active VIP Plan Membership</span>
                       </div>
 
                       <Link
@@ -701,7 +701,7 @@ export default function Navigation({
             className="flex items-center space-x-1 px-3 py-1 rounded-full whitespace-nowrap text-amber-300 font-bold bg-amber-400/15 border border-amber-400/30 shadow-[0_0_10px_rgba(245,158,11,0.2)]"
           >
             <Crown className="w-3 h-3 fill-amber-400" />
-            <span>VIP Club</span>
+            <span>VIP Plan</span>
           </Link>
         </div>
       )}
@@ -719,8 +719,8 @@ export default function Navigation({
             {isGuest ? (
               <div className="space-y-3">
                 <div>
-                  <h3 className="font-bold text-white text-base">Welcome to LensImpact</h3>
-                  <p className="text-xs text-[#8E8E93]">Join our film society to save watchlists and discuss.</p>
+                  <h3 className="font-bold text-white text-base">Welcome to Kun Yeung</h3>
+                  <p className="text-xs text-[#8E8E93]">Join our to save watchlists and discuss.</p>
                 </div>
                 <div className="grid grid-cols-2 gap-2 pt-1">
                   <button

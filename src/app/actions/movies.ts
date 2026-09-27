@@ -31,20 +31,100 @@ export async function getAdminMovies(): Promise<MovieData[]> {
   return [];
 }
 
-export async function getAdminStats() {
+export interface AdminOverviewStats {
+  totalMovies: number;
+  topRatedMovies: number;
+  totalGenres: number;
+  totalUsers: number;
+  vipUsers: number;
+  freeUsers: number;
+  adminUsers: number;
+  activeSubscribers: number;
+  totalViews: number;
+  recentUsers: Array<{
+    id: string;
+    name: string | null;
+    email: string;
+    avatar?: string | null;
+    role: string;
+    subscriptionStatus: string;
+    subscriptionTier: string | null;
+    subscriptionEndDate: string | null;
+    createdAt: string;
+  }>;
+}
+
+export async function getAdminStats(): Promise<AdminOverviewStats> {
   try {
-    const [movieCount, topRatedCount, genreCount] = await Promise.all([
+    const [
+      movieCount,
+      topRatedCount,
+      genreCount,
+      totalUsersCount,
+      vipUsersCount,
+      freeUsersCount,
+      adminUsersCount,
+      recentUsersList,
+    ] = await Promise.all([
       prisma.movie.count(),
       prisma.movie.count({ where: { isTopRated: true } }),
       prisma.genre.count(),
+      prisma.user.count(),
+      prisma.user.count({
+        where: {
+          subscriptionStatus: "active",
+          role: { not: "ADMIN" },
+        },
+      }),
+      prisma.user.count({
+        where: {
+          subscriptionStatus: "free",
+          role: { not: "ADMIN" },
+        },
+      }),
+      prisma.user.count({
+        where: {
+          role: "ADMIN",
+        },
+      }),
+      prisma.user.findMany({
+        take: 6,
+        orderBy: { createdAt: "desc" },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          avatar: true,
+          role: true,
+          subscriptionStatus: true,
+          subscriptionTier: true,
+          subscriptionEndDate: true,
+          createdAt: true,
+        },
+      }),
     ]);
 
     return {
       totalMovies: movieCount,
       topRatedMovies: topRatedCount,
       totalGenres: genreCount,
-      activeSubscribers: 1420,
+      totalUsers: totalUsersCount,
+      vipUsers: vipUsersCount,
+      freeUsers: freeUsersCount,
+      adminUsers: adminUsersCount,
+      activeSubscribers: vipUsersCount,
       totalViews: 84900,
+      recentUsers: recentUsersList.map((u) => ({
+        id: u.id,
+        name: u.name,
+        email: u.email,
+        avatar: u.avatar,
+        role: u.role,
+        subscriptionStatus: u.subscriptionStatus,
+        subscriptionTier: u.subscriptionTier,
+        subscriptionEndDate: u.subscriptionEndDate ? u.subscriptionEndDate.toISOString() : null,
+        createdAt: u.createdAt.toISOString(),
+      })),
     };
   } catch (error) {
     console.warn("Prisma stats fallback:", error);
@@ -52,8 +132,13 @@ export async function getAdminStats() {
       totalMovies: 0,
       topRatedMovies: 0,
       totalGenres: 0,
-      activeSubscribers: 1420,
+      totalUsers: 0,
+      vipUsers: 0,
+      freeUsers: 0,
+      adminUsers: 0,
+      activeSubscribers: 0,
       totalViews: 84900,
+      recentUsers: [],
     };
   }
 }

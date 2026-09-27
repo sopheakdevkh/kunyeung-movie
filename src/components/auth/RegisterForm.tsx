@@ -128,7 +128,7 @@ export default function RegisterForm() {
           Create your account
         </h1>
         <p className="text-xs sm:text-sm text-[#8E8E93]">
-          Join LensImpact Film Club to bookmark films, join discussion salons, and stream curated cinema.
+          Join Kun Yeung to bookmark films, join discussion salons, and stream curated cinema.
         </p>
 
         {redirectParam !== "/dashboard" && (

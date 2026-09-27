@@ -14,23 +14,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LensImpact Film Club | Watch Movies & TV Shows",
+  title: "Kun Yeung (កុន យើង) | Movies & Stories",
   description:
-    "Stream the latest movies, exclusive originals, and trending TV shows with LensImpact Film Club in cinematic Ultra HD quality.",
+    "Movies, memories, and stories. Stream exclusive cinema, Cambodian stories, and originals on Kun Yeung.",
   keywords: [
-    "LensImpact Film Club",
-    "LensImpact",
+    "Kun Yeung",
+    "កុន យើង",
     "streaming",
     "movies",
-    "tv series",
+    "khmer movies",
     "cinema",
     "watch online",
     "ultra hd",
   ],
   icons: {
-    icon: "/logo.svg",
-    shortcut: "/logo.svg",
-    apple: "/logo.svg",
+    icon: "/kon-yeung-icon.png",
+    shortcut: "/kon-yeung-icon.png",
+    apple: "/kon-yeung-icon.png",
   },
 };
 

@@ -37,19 +37,21 @@ export default function UserBadge({
     );
   }
 
-  // Club Member Badge (Distinct glowing / colored)
+  // VIP / Club Member Badge (Distinct glowing / colored)
   if (
     normalizedTier === "paid_member" ||
     normalizedTier === "member" ||
-    normalizedTier === "active"
+    normalizedTier === "active" ||
+    normalizedTier === "vip"
   ) {
+    const isVipText = normalizedTier === "vip" || normalizedTier === "active" || normalizedTier === "paid_member";
     return (
       <span
         className={`inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wide uppercase bg-gradient-to-r from-[#FF5500]/25 to-[#FF9F0A]/25 text-[#FF9F0A] border border-[#FF9F0A]/50 shadow-[0_0_14px_rgba(255,159,10,0.4)] ${className}`}
-        title="Active LensImpact Club Member"
+        title="Active VIP Member"
       >
         <Sparkles className="w-3 h-3 text-[#FF9F0A] animate-pulse" />
-        <span>Club Member</span>
+        <span>{isVipText ? "VIP Member" : "Club Member"}</span>
       </span>
     );
   }

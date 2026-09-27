@@ -538,7 +538,7 @@ export default function MovieDetailsModal({
                           VIP Subscription Required
                         </h4>
                         <p className="text-xs text-[#8E8E93] leading-relaxed">
-                          This video stream is reserved for LensImpact Film Club VIP Subscribers. Upgrade now to stream all exclusive cinema and directors cuts.
+                          This video stream is reserved for Kun Yeung VIP Subscribers. Upgrade now to stream all exclusive cinema and directors cuts.
                         </p>
                         <div className="pt-1 flex items-center justify-center gap-3">
                           <Link
@@ -562,7 +562,7 @@ export default function MovieDetailsModal({
                           Join Free to Stream
                         </h4>
                         <p className="text-xs text-[#8E8E93] leading-relaxed">
-                          Create a free LensImpact Club account in 10 seconds to unlock and watch this video.
+                          Create a free Kun Yeung account in 10 seconds to unlock and watch this video.
                         </p>
                         <div className="pt-1 flex items-center justify-center gap-3">
                           <button
@@ -992,7 +992,7 @@ export default function MovieDetailsModal({
                   </div>
                   <div>
                     <span className="block text-white/50 font-bold mb-1">Studio</span>
-                    <span className="font-semibold text-white">LensImpact Originals</span>
+                    <span className="font-semibold text-white">Kun Yeung Originals</span>
                   </div>
                   <div>
                     <span className="block text-white/50 font-bold mb-1">Release</span>

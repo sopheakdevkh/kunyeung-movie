@@ -41,15 +41,6 @@ const THEME_COLORS = [
   { label: "Emerald Green", hex: "#10B981" },
 ];
 
-const BADGE_PRESETS = [
-  "SPECIAL PROMOTION",
-  "LIMITED TIME OFFER",
-  "FESTIVAL PREMIERE",
-  "FEATURED PARTNER",
-  "VIP PASS",
-  "NEWS & EVENTS",
-  "ADVERTISEMENT",
-];
 
 interface PromotionManagerClientProps {
   initialPromotions: PromoBanner[];
@@ -68,12 +59,8 @@ export default function PromotionManagerClient({
   const [editingId, setEditingId] = useState<string | null>(null);
 
   // Form State
-  const [formTitle, setFormTitle] = useState("");
-  const [formSubtitle, setFormSubtitle] = useState("");
-  const [formBadge, setFormBadge] = useState("SPECIAL PROMOTION");
   const [formImageUrl, setFormImageUrl] = useState("");
   const [formLinkUrl, setFormLinkUrl] = useState("");
-  const [formCtaText, setFormCtaText] = useState("Explore Now");
   const [formThemeColor, setFormThemeColor] = useState("#FF5500");
   const [formIsActive, setFormIsActive] = useState(true);
 
@@ -84,12 +71,8 @@ export default function PromotionManagerClient({
 
   const openCreateModal = () => {
     setEditingId(null);
-    setFormTitle("");
-    setFormSubtitle("");
-    setFormBadge("");
     setFormImageUrl("");
     setFormLinkUrl("");
-    setFormCtaText("");
     setFormThemeColor("none");
     setFormIsActive(true);
     setIsModalOpen(true);
@@ -97,12 +80,8 @@ export default function PromotionManagerClient({
 
   const openEditModal = (item: PromoBanner) => {
     setEditingId(item.id);
-    setFormTitle(item.title || "");
-    setFormSubtitle(item.subtitle || "");
-    setFormBadge(item.badge || "");
     setFormImageUrl(item.imageUrl || "");
     setFormLinkUrl(item.linkUrl || "");
-    setFormCtaText(item.ctaText || "");
     setFormThemeColor(item.themeColor || "none");
     setFormIsActive(item.isActive);
     setIsModalOpen(true);
@@ -120,12 +99,12 @@ export default function PromotionManagerClient({
         p.id === editingId
           ? {
               ...p,
-              title: formTitle,
-              subtitle: formSubtitle,
-              badge: formBadge,
+              title: "",
+              subtitle: "",
+              badge: "",
               imageUrl: formImageUrl,
               linkUrl: formLinkUrl,
-              ctaText: formCtaText,
+              ctaText: "",
               themeColor: formThemeColor,
               isActive: formIsActive,
             }
@@ -136,12 +115,12 @@ export default function PromotionManagerClient({
 
       startTransition(async () => {
         const res = await updatePromotionAction(editingId, {
-          title: formTitle,
-          subtitle: formSubtitle,
-          badge: formBadge,
+          title: "",
+          subtitle: "",
+          badge: "",
           imageUrl: formImageUrl,
           linkUrl: formLinkUrl,
-          ctaText: formCtaText,
+          ctaText: "",
           themeColor: formThemeColor,
           isActive: formIsActive,
         });
@@ -157,12 +136,12 @@ export default function PromotionManagerClient({
       const tempId = `promo-${Date.now()}`;
       const newPromo: PromoBanner = {
         id: tempId,
-        title: formTitle,
-        subtitle: formSubtitle,
-        badge: formBadge,
+        title: "",
+        subtitle: "",
+        badge: "",
         imageUrl: formImageUrl,
         linkUrl: formLinkUrl,
-        ctaText: formCtaText,
+        ctaText: "",
         themeColor: formThemeColor,
         isActive: formIsActive,
         order: promotions.length + 1,
@@ -175,12 +154,12 @@ export default function PromotionManagerClient({
 
       startTransition(async () => {
         const res = await createPromotionAction({
-          title: formTitle,
-          subtitle: formSubtitle,
-          badge: formBadge,
+          title: "",
+          subtitle: "",
+          badge: "",
           imageUrl: formImageUrl,
           linkUrl: formLinkUrl,
-          ctaText: formCtaText,
+          ctaText: "",
           themeColor: formThemeColor,
           isActive: formIsActive,
         });
@@ -586,114 +565,20 @@ export default function PromotionManagerClient({
                 />
               </div>
 
-              {/* Title */}
+
+              {/* Target Link URL */}
               <div>
                 <label className="block text-xs font-bold text-[#8E8E93] uppercase tracking-wider mb-1.5">
-                  Headline Title (Optional)
+                  Target Link URL (Optional)
                 </label>
                 <input
                   type="text"
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  placeholder="Optional title (leave empty if artwork already has text)"
+                  value={formLinkUrl}
+                  onChange={(e) => setFormLinkUrl(e.target.value)}
+                  placeholder="e.g. /dashboard?tab=subscription or https://..."
                   className="w-full bg-[#181A24] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FF5500]"
                 />
-              </div>
-
-              {/* Subtitle */}
-              <div>
-                <label className="block text-xs font-bold text-[#8E8E93] uppercase tracking-wider mb-1.5">
-                  Subtitle / News Synopsis (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  value={formSubtitle}
-                  onChange={(e) => setFormSubtitle(e.target.value)}
-                  placeholder="Optional description, promotional terms, or leave blank..."
-                  className="w-full bg-[#181A24] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FF5500] leading-relaxed"
-                />
-              </div>
-
-              {/* Badge & Presets */}
-              <div>
-                <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs font-bold text-[#8E8E93] uppercase tracking-wider">
-                    Banner Badge Tag (Optional)
-                  </label>
-                  {formBadge && (
-                    <button
-                      type="button"
-                      onClick={() => setFormBadge("")}
-                      className="text-[10px] text-red-400 hover:text-red-300 font-semibold"
-                    >
-                      Clear (No Badge)
-                    </button>
-                  )}
-                </div>
-                <input
-                  type="text"
-                  value={formBadge}
-                  onChange={(e) => setFormBadge(e.target.value)}
-                  placeholder="e.g. SPECIAL PROMOTION (leave empty for none)"
-                  className="w-full bg-[#181A24] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FF5500] mb-2"
-                />
-                <div className="flex flex-wrap gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setFormBadge("")}
-                    className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all ${
-                      !formBadge
-                        ? "bg-white/20 text-white border-white/40"
-                        : "bg-white/5 text-[#8E8E93] border-white/5 hover:text-white"
-                    }`}
-                  >
-                    None (No Badge)
-                  </button>
-                  {BADGE_PRESETS.map((preset) => (
-                    <button
-                      key={preset}
-                      type="button"
-                      onClick={() => setFormBadge(preset)}
-                      className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all ${
-                        formBadge === preset
-                          ? "bg-white/20 text-white border-white/40"
-                          : "bg-white/5 text-[#8E8E93] border-white/5 hover:text-white"
-                      }`}
-                    >
-                      {preset}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Target Link & CTA Button Text */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold text-[#8E8E93] uppercase tracking-wider mb-1.5">
-                    Target Link URL (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={formLinkUrl}
-                    onChange={(e) => setFormLinkUrl(e.target.value)}
-                    placeholder="e.g. /dashboard?tab=subscription or https://..."
-                    className="w-full bg-[#181A24] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FF5500]"
-                  />
-                  <p className="text-[10px] text-[#8E8E93] mt-1">If set with no button, entire banner is clickable.</p>
-                </div>
-                <div>
-                  <label className="block text-xs font-bold text-[#8E8E93] uppercase tracking-wider mb-1.5">
-                    Button Label (CTA) (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={formCtaText}
-                    onChange={(e) => setFormCtaText(e.target.value)}
-                    placeholder="Leave empty for no button"
-                    className="w-full bg-[#181A24] border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#FF5500]"
-                  />
-                  <p className="text-[10px] text-[#8E8E93] mt-1">Displays clickable action pill on banner.</p>
-                </div>
+                <p className="text-[10px] text-[#8E8E93] mt-1">If set, the entire banner becomes clickable and navigates to this URL.</p>
               </div>
 
               {/* Theme Color Picker */}

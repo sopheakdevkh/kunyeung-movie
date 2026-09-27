@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "mindset-growth": "public",
+    "award-shorts": "public",
+    "action": "public",
+    "adventure": "public",
+    "animation": "public",
+    "comedy": "public",
+    "social-impact": "free",
+    "drama": "public",
+    "sci-fi": "public",
+    "crime": "public",
+    "fantasy": "public",
+    "philosophical-cinema": "vip",
+    "leadership-resilience": "vip",
+    "thriller": "public"
+  },
+  "limits": {
+    "guestCategoryLimit": 10,
+    "guestSearchLimit": 4,
+    "freeSearchLimit": 8
+  }
+}

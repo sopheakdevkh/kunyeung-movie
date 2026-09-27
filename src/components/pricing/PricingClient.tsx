@@ -97,7 +97,7 @@ export default function PricingClient() {
 
   const FAQS = [
     {
-      question: "How do member payments support LensImpact Film Club?",
+      question: "How do member payments support Kun Yeung?",
       answer:
         "100% of member subscriptions directly fund our dedicated team of film scholars, psychological analysts, and educators. Your support finances our deep narrative breakdowns, study syllabus creation, licensing fees, video lesson production, and private community curation.",
     },
@@ -320,8 +320,8 @@ export default function PricingClient() {
             <div className="space-y-6">
               {/* Badge & Title */}
               <div className="space-y-2">
-                <span className="inline-block px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-bold uppercase tracking-wider">
-                  LensImpact Member Circle
+                <span className="inline-block px-3 py-1 rounded-full bg-[#FFB800]/15 border border-[#FFB800]/30 text-[#FFB800] text-xs font-bold uppercase tracking-wider">
+                  Kun Yeung Member Circle
                 </span>
                 <h3 className="text-2xl font-black text-white tracking-tight">Premium Member</h3>
                 <p className="text-xs text-[#8E8E93]">

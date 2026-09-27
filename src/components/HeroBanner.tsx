@@ -301,12 +301,12 @@ export default function HeroBanner({
               {preferImage ? (
                 <>
                   <VideoIcon className="w-3.5 h-3.5 text-[#FF5500]" />
-                  <span>Play Trailer Preview</span>
+                  <span>Trailer Preview</span>
                 </>
               ) : (
                 <>
                   <ImageIcon className="w-3.5 h-3.5 text-[#00F0FF]" />
-                  <span>Display Image Artwork</span>
+                  <span>Image Artwork</span>
                 </>
               )}
             </button>

@@ -1,37 +1,37 @@
 [
   {
     "id": "promo-vip-pass",
-    "title": "Welcome to Kon Yeung",
-    "subtitle": "Movies, memories, and stories shared by our WMAD community.",
-    "badge": "NEWS & EVENTS",
-    "imageUrl": "/uploads/img_ChatGPT_Image_Sep_26__2026__07_1790426838849.png",
+    "title": "",
+    "subtitle": "",
+    "badge": "",
+    "imageUrl": "/uploads/img_10e54846-c191-41eb-93ec-ffbf6e_1790492199692.png",
     "linkUrl": "/login",
     "ctaText": "Register Now ",
     "themeColor": "#FF5500",
     "isActive": true,
     "order": 1,
     "createdAt": "2026-09-01T00:00:00.000Z",
-    "updatedAt": "2026-09-26T13:04:43.302Z"
+    "updatedAt": "2026-09-27T07:10:11.124Z"
   },
   {
     "id": "promo-indie-festival",
-    "title": "Your WMAD VIP Starts Here",
-    "subtitle": "Register today and unlock your free VIP membership as a WMAD friend.\nNo payment required. Just join the community.",
-    "badge": "LIMITED TIME OFFER",
-    "imageUrl": "/uploads/img_ChatGPT_Image_Sep_26__2026__07_1790427061841.png",
+    "title": "",
+    "subtitle": "",
+    "badge": "",
+    "imageUrl": "/uploads/img_a2af45d5-8ffe-43cf-89fd-bb960a_1790492302035.png",
     "linkUrl": "/login",
     "ctaText": "Register & Get VIP",
     "themeColor": "#00F0FF",
     "isActive": true,
     "order": 2,
     "createdAt": "2026-09-10T00:00:00.000Z",
-    "updatedAt": "2026-09-26T13:07:07.382Z"
+    "updatedAt": "2026-09-27T07:09:41.524Z"
   },
   {
     "id": "promo-gear-sponsor",
-    "title": "OnePlus 12 & Hasselblad Cinema Camera Edition",
-    "subtitle": "Shot entirely on mobile: experience cinematic 4K Dolby Vision capture with master color profiles.",
-    "badge": "FEATURED PARTNER",
+    "title": "",
+    "subtitle": "",
+    "badge": "",
     "imageUrl": "/uploads/img_99b002aa-3661-47ab-ae71-44766e_1790427119587.png",
     "linkUrl": "https://www.oneplus.com",
     "ctaText": "Discover Gear",
@@ -39,6 +39,20 @@
     "isActive": true,
     "order": 3,
     "createdAt": "2026-09-15T00:00:00.000Z",
-    "updatedAt": "2026-09-26T12:52:01.782Z"
+    "updatedAt": "2026-09-27T07:09:26.329Z"
+  },
+  {
+    "title": "",
+    "subtitle": "",
+    "badge": "",
+    "imageUrl": "https://previews.123rf.com/images/sergeypykhonin/sergeypykhonin2205/sergeypykhonin220500063/187255357-cinema-movie-poster-design-movie-time-banner-vector-retro-film-camera-background.jpg",
+    "linkUrl": "",
+    "ctaText": "",
+    "themeColor": "#EAB308",
+    "isActive": true,
+    "id": "promo-1790492947985",
+    "order": 4,
+    "createdAt": "2026-09-27T07:09:07.985Z",
+    "updatedAt": "2026-09-27T07:10:49.652Z"
   }
 ]

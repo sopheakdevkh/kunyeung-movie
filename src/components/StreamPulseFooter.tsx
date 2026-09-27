@@ -90,7 +90,7 @@ export default function StreamPulseFooter() {
         </div>
 
         <p className="text-white/40 text-[11px]">
-          &copy; {new Date().getFullYear()} LensImpact Film Club. All rights reserved.
+          &copy; {new Date().getFullYear()} Kun Yeung (កុន យើង) — All rights reserved.
         </p>
       </div>
     </footer>

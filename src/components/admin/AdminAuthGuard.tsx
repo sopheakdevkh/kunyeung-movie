@@ -79,7 +79,7 @@ export default function AdminAuthGuard({ children }: { children: React.ReactNode
   return (
     <div className="min-h-screen bg-[#070709] text-white flex flex-col md:flex-row">
       <AdminSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 md:pl-64">
         <main className="p-4 sm:p-6 lg:p-10 flex-1">{children}</main>
       </div>
     </div>

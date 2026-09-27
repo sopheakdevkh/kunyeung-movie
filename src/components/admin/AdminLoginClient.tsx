@@ -113,27 +113,27 @@ export default function AdminLoginClient() {
         {/* Top Header Badge */}
         <div className="flex justify-center mb-6">
           <div className="relative group">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1E202B] to-[#0E0F15] border border-white/15 flex items-center justify-center shadow-[0_0_50px_rgba(235,0,41,0.3)] transition-transform group-hover:scale-105">
-              <div className="w-9 h-9 drop-shadow-[0_0_12px_rgba(235,0,41,0.6)]">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1E202B] to-[#0E0F15] border border-white/15 flex items-center justify-center shadow-[0_0_50px_rgba(255,184,0,0.3)] transition-transform group-hover:scale-105">
+              <div className="w-10 h-10 drop-shadow-[0_0_12px_rgba(255,184,0,0.6)]">
                 <OnePlusSignSvg />
               </div>
             </div>
-            <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-[#EB0029] border-2 border-[#070709] flex items-center justify-center shadow-lg">
-              <Lock className="w-3 h-3 text-white stroke-[2.5]" />
+            <div className="absolute -bottom-1.5 -right-1.5 w-6 h-6 rounded-full bg-[#FFB800] border-2 border-[#070709] flex items-center justify-center shadow-lg">
+              <Lock className="w-3 h-3 text-black stroke-[2.5]" />
             </div>
           </div>
         </div>
 
         {/* Card Body */}
-        <div className="rounded-3xl bg-[#0F1017]/95 border border-white/15 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_70px_rgba(0,0,0,0.8),0_0_40px_rgba(235,0,41,0.06)] space-y-6">
+        <div className="rounded-3xl bg-[#0F1017]/95 border border-white/15 p-6 sm:p-8 backdrop-blur-2xl shadow-[0_20px_70px_rgba(0,0,0,0.8),0_0_40px_rgba(255,184,0,0.06)] space-y-6">
           {/* Title & Security Notice */}
           <div className="text-center space-y-1.5">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#EB0029]/10 border border-[#EB0029]/30 text-[#EB0029] text-[10px] font-black uppercase tracking-widest">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[#FFB800] text-[10px] font-black uppercase tracking-widest">
               <ShieldAlert className="w-3 h-3" />
               <span>Restricted • Admin Gateway</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-              LensImpact Control Console
+              Kun Yeung Admin Console
             </h1>
             <p className="text-xs text-white/50 leading-relaxed">
               Verify administrator credentials to access the full CMS, film catalog, and user rules.

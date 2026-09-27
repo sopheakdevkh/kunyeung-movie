@@ -16,14 +16,17 @@ import {
   FileText,
   Lock,
   ChevronRight,
+  ChevronLeft,
   ArrowRight,
 } from "lucide-react";
+import Image from "next/image";
 import UserBadge from "@/components/comments/UserBadge";
 
 export interface AdminUserRecord {
   id: string;
   name?: string | null;
   email: string;
+  avatar?: string | null;
   role: string;
   subscriptionStatus: "free" | "active" | "past_due" | "cancelled" | string;
   subscriptionTier?: string | null;
@@ -161,6 +164,14 @@ export default function SubscriptionManagerClient({
     }
   };
 
+  const PAGE_SIZE = 5;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset to first page when search query or filter changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, statusFilter]);
+
   // Filtered list
   const filteredUsers = users.filter((u) => {
     const matchesSearch =
@@ -172,6 +183,10 @@ export default function SubscriptionManagerClient({
     if (statusFilter === "admin") return u.role.toLowerCase() === "admin";
     return u.subscriptionStatus.toLowerCase() === statusFilter;
   });
+
+  const totalPages = Math.max(1, Math.ceil(filteredUsers.length / PAGE_SIZE));
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + PAGE_SIZE);
 
   return (
     <div className="space-y-6">
@@ -247,7 +262,7 @@ export default function SubscriptionManagerClient({
                   </td>
                 </tr>
               ) : (
-                filteredUsers.map((u) => {
+                paginatedUsers.map((u) => {
                   const isActive = u.subscriptionStatus.toLowerCase() === "active";
                   const isAdminRole = u.role.toLowerCase() === "admin";
                   const isExpired =
@@ -260,11 +275,21 @@ export default function SubscriptionManagerClient({
                       key={u.id}
                       className="hover:bg-white/[0.02] transition-colors group"
                     >
-                      {/* 1. User Email & Details */}
+                      {/* 1. User Email & Details with Profile Image */}
                       <td className="py-4 px-4">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#FF5500]/20 to-[#FF9F0A]/20 border border-white/10 flex items-center justify-center font-bold text-white text-xs shrink-0">
-                            {u.name ? u.name[0].toUpperCase() : u.email[0].toUpperCase()}
+                          <div className="relative w-8 h-8 rounded-full overflow-hidden bg-gradient-to-tr from-[#FF5500]/20 to-[#FF9F0A]/20 border border-white/10 flex items-center justify-center font-bold text-white text-xs shrink-0 shadow-sm">
+                            {u.avatar ? (
+                              <Image
+                                src={u.avatar}
+                                alt={u.name || u.email}
+                                fill
+                                sizes="32px"
+                                className="object-cover"
+                              />
+                            ) : (
+                              <span>{u.name ? u.name[0].toUpperCase() : u.email[0].toUpperCase()}</span>
+                            )}
                           </div>
                           <div>
                             <div className="font-bold text-white tracking-tight">
@@ -356,6 +381,58 @@ export default function SubscriptionManagerClient({
             </tbody>
           </table>
         </div>
+
+        {/* Pagination Controls (5 users per page) */}
+        {filteredUsers.length > 0 && (
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-5 py-3.5 border-t border-white/5 bg-white/[0.01]">
+            <div className="text-xs text-[#8E8E93]">
+              Showing <span className="font-semibold text-white">{startIndex + 1}</span> to{" "}
+              <span className="font-semibold text-white">
+                {Math.min(startIndex + PAGE_SIZE, filteredUsers.length)}
+              </span>{" "}
+              of <span className="font-semibold text-white">{filteredUsers.length}</span> users
+            </div>
+
+            <div className="flex items-center space-x-1.5">
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+                className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer text-xs font-semibold"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+                <span>Prev</span>
+              </button>
+
+              <div className="flex items-center space-x-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    type="button"
+                    onClick={() => setCurrentPage(pageNum)}
+                    className={`w-7 h-7 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center justify-center ${
+                      currentPage === pageNum
+                        ? "bg-gradient-to-r from-[#FF5500] to-[#EB0029] text-white shadow-[0_0_10px_rgba(255,85,0,0.4)]"
+                        : "bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/5"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer text-xs font-semibold"
+              >
+                <span>Next</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ========================================================= */}
@@ -377,17 +454,36 @@ export default function SubscriptionManagerClient({
             </button>
 
             {/* Header */}
-            <div className="space-y-1">
-              <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-[10px] font-extrabold uppercase tracking-wider">
-                <Shield className="w-3 h-3" />
-                <span>Admin Privileges</span>
+            <div className="space-y-3">
+              <div className="flex items-center space-x-3">
+                <div className="relative w-10 h-10 rounded-full overflow-hidden bg-gradient-to-tr from-[#FF5500]/20 to-[#FF9F0A]/20 border border-white/10 flex items-center justify-center font-bold text-white text-sm shrink-0">
+                  {selectedUser.avatar ? (
+                    <Image
+                      src={selectedUser.avatar}
+                      alt={selectedUser.name || selectedUser.email}
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <span>{(selectedUser.name?.[0] || selectedUser.email[0]).toUpperCase()}</span>
+                  )}
+                </div>
+                <div>
+                  <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-[10px] font-extrabold uppercase tracking-wider mb-0.5">
+                    <Shield className="w-3 h-3" />
+                    <span>Admin Privileges</span>
+                  </div>
+                  <h3 className="text-base sm:text-lg font-black text-white tracking-tight">
+                    Manual Subscription Override
+                  </h3>
+                </div>
               </div>
-              <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
-                Manual Subscription Override
-              </h3>
               <p className="text-xs text-[#8E8E93]">
                 Directly adjust access tier, grant passes, or record offline payments for{" "}
-                <span className="text-white font-bold">{selectedUser.email}</span>.
+                <span className="text-white font-bold">
+                  {selectedUser.name ? `${selectedUser.name} (${selectedUser.email})` : selectedUser.email}
+                </span>.
               </p>
             </div>
 

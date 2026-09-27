@@ -445,14 +445,12 @@ export default function DashboardClient() {
             <div className="flex items-center space-x-4">
               {/* Avatar circle with image or initials */}
               <div className="relative group/avatar flex-shrink-0">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-[#FF5500] to-[#EB0029] p-0.5 shadow-[0_0_20px_rgba(255,85,0,0.3)]">
-                  <div className="w-full h-full rounded-[14px] bg-[#12141D] flex items-center justify-center text-white font-black text-xl sm:text-2xl tracking-wider overflow-hidden">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#12141D] flex items-center justify-center text-white font-black text-xl sm:text-2xl tracking-wider overflow-hidden shadow-[0_0_20px_rgba(255,85,0,0.3)]">
                     <img
                       src={displayAvatarSrc}
                       alt={userFullName}
                       className="w-full h-full object-cover"
                     />
-                  </div>
                 </div>
                 {/* Quick Edit Overlay Button */}
                 <button
@@ -467,7 +465,7 @@ export default function DashboardClient() {
               <div>
                 <div className="flex items-center space-x-2">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#FF5500]">
-                    {isAdmin ? "Admin Console" : isPaidUser ? "VIP Member Dashboard" : "Community Dashboard"}
+                    {isAdmin ? "Admin Console" : isPaidUser ? "VIP Member" : "Community"}
                   </span>
                   <span className="text-white/20">•</span>
                   <span className="text-[11px] text-white/50">Joined {memberSinceFormatted}</span>
@@ -492,12 +490,12 @@ export default function DashboardClient() {
               ) : isPaidUser ? (
                 <div className="flex items-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-500/20 to-[#EB0029]/20 border border-amber-400/40 text-amber-300 text-xs font-bold shadow-[0_0_15px_rgba(245,158,11,0.2)]">
                   <Crown className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  <span>VIP Club Member</span>
+                  <span>VIP Member</span>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2 px-4 py-2 rounded-full bg-white/5 border border-white/15 text-white/80 text-xs font-bold">
                   <UserIcon className="w-3.5 h-3.5 text-white/50" />
-                  <span>Free User (Public Access)</span>
+                  <span>Free User</span>
                 </div>
               )}
             </div>
@@ -511,7 +509,6 @@ export default function DashboardClient() {
                 <span className="text-xl sm:text-2xl font-black text-white">
                   {isLoadingStats ? "..." : historyStats.totalCount}
                 </span>
-                <span className="text-[11px] text-white/40 font-medium">titles</span>
               </div>
             </div>
 
@@ -527,7 +524,7 @@ export default function DashboardClient() {
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[#141620] border border-white/5">
               <span className="text-[11px] text-[#8E8E93] font-medium block">Study Notes</span>
               <div className="flex items-baseline space-x-1.5 mt-1">
-                <span className="text-xl sm:text-2xl font-black text-white">
+                <span className="text-xl sm:text-2xl font-black text-[#FF5500]">
                   {isPaidUser ? "Full Access" : "Preview"}
                 </span>
               </div>
@@ -693,14 +690,12 @@ export default function DashboardClient() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                   <div className="flex items-center space-x-4">
                     {/* Preview circle */}
-                    <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#FF5500] to-[#EB0029] p-0.5 shadow-[0_0_15px_rgba(255,85,0,0.25)] flex-shrink-0">
-                      <div className="w-full h-full rounded-[14px] bg-[#12141D] flex items-center justify-center text-white font-black text-xl tracking-wider overflow-hidden">
+                    <div className="relative w-16 h-16 rounded-2xl bg-[#12141D] flex items-center justify-center text-white font-black text-xl tracking-wider overflow-hidden shadow-[0_0_15px_rgba(255,85,0,0.25)] flex-shrink-0">
                         <img
                           src={displayAvatarSrc}
                           alt="Avatar Preview"
                           className="w-full h-full object-cover"
                         />
-                      </div>
                       {isUploadingAvatar && (
                         <div className="absolute inset-0 rounded-2xl bg-black/75 backdrop-blur-xs flex items-center justify-center">
                           <Loader2 className="w-5 h-5 text-[#FF5500] animate-spin" />

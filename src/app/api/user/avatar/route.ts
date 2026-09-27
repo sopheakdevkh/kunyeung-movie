@@ -1,17 +1,116 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import prisma from "@/lib/db";
 import { extractTokenFromRequest, verifyAuthToken } from "@/lib/auth-security";
 
 export const dynamic = "force-dynamic";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "gif", "svg", "avif"];
+
+/**
+ * Upload image buffer to Cloudinary via REST API (no SDK needed).
+ * Uses CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, and NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME env vars.
+ */
+async function uploadToCloudinary(
+  buffer: Buffer,
+  publicId: string
+): Promise<{ url: string; publicId: string }> {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    throw new Error("Cloudinary environment variables are not configured.");
+  }
+
+  // Generate signature for upload
+  const timestamp = Math.floor(Date.now() / 1000);
+  const paramsToSign = `folder=avatars&public_id=${publicId}&timestamp=${timestamp}&upload_preset=unsigned_avatars`;
+
+  // For unsigned upload, we don't need a signature — use upload_preset
+  // But since we have API secret, use signed upload for security
+  const crypto = await import("crypto");
+  const signature = crypto
+    .createHash("sha1")
+    .update(`folder=avatars&overwrite=true&public_id=${publicId}&timestamp=${timestamp}${apiSecret}`)
+    .digest("hex");
+
+  const formData = new FormData();
+  formData.append("file", new Blob([new Uint8Array(buffer)]), "avatar.jpg");
+  formData.append("api_key", apiKey);
+  formData.append("timestamp", String(timestamp));
+  formData.append("signature", signature);
+  formData.append("public_id", publicId);
+  formData.append("folder", "avatars");
+  formData.append("overwrite", "true");
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    { method: "POST", body: formData }
+  );
+
+  if (!res.ok) {
+    const errBody = await res.text();
+    console.error("Cloudinary upload error:", errBody);
+    throw new Error("Failed to upload image to Cloudinary.");
+  }
+
+  const data = await res.json();
+  return {
+    url: data.secure_url,
+    publicId: data.public_id,
+  };
+}
+
+/**
+ * Delete image from Cloudinary via REST API.
+ */
+async function deleteFromCloudinary(publicId: string): Promise<void> {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) return;
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const crypto = await import("crypto");
+  const signature = crypto
+    .createHash("sha1")
+    .update(`public_id=${publicId}&timestamp=${timestamp}${apiSecret}`)
+    .digest("hex");
+
+  try {
+    await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          public_id: publicId,
+          api_key: apiKey,
+          timestamp,
+          signature,
+        }),
+      }
+    );
+  } catch (err) {
+    console.warn("Could not delete old avatar from Cloudinary:", err);
+  }
+}
+
+/**
+ * Extract Cloudinary public_id from a Cloudinary URL.
+ * e.g. https://res.cloudinary.com/xxx/image/upload/v123/avatars/avatar-userId.jpg → avatars/avatar-userId
+ */
+function extractCloudinaryPublicId(url: string): string | null {
+  if (!url || !url.includes("res.cloudinary.com")) return null;
+  const match = url.match(/\/upload\/(?:v\d+\/)?(.*?)(?:\.\w+)?$/);
+  return match ? match[1] : null;
+}
 
 /**
  * POST /api/user/avatar
  * Allows any authenticated user (USER, VIP, ADMIN) to upload or update their profile avatar.
+ * Uploads to Cloudinary CDN (works on Vercel and all serverless platforms).
  */
 export async function POST(request: NextRequest) {
   try {
@@ -61,34 +160,15 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Determine extension
-      const rawExt = file.name.split(".").pop()?.toLowerCase() || "";
-      const ext = ALLOWED_EXTENSIONS.includes(rawExt)
-        ? rawExt
-        : file.type.includes("png")
-        ? "png"
-        : file.type.includes("webp")
-        ? "webp"
-        : file.type.includes("gif")
-        ? "gif"
-        : "jpg";
-
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
 
-      // Create uploads directory in public/avatars
-      const uploadsDir = path.join(process.cwd(), "public", "avatars");
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
-      }
-
-      const filename = `avatar-${payload.sub}-${Date.now()}.${ext}`;
-      const filePath = path.join(uploadsDir, filename);
-
-      await fs.promises.writeFile(filePath, buffer);
-      avatarUrl = `/avatars/${filename}`;
+      // Upload to Cloudinary with a unique public_id per user
+      const publicId = `avatar-${payload.sub}`;
+      const result = await uploadToCloudinary(buffer, publicId);
+      avatarUrl = result.url;
     } else if (contentType.includes("application/json")) {
-      // 3. Handle JSON with avatarUrl
+      // 3. Handle JSON with avatarUrl (direct URL)
       const body = await request.json();
       if (!body.avatarUrl || typeof body.avatarUrl !== "string") {
         return NextResponse.json(
@@ -111,24 +191,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 4. Remove previous local avatar file if it was in /avatars/
-    const existingUser = await prisma.user.findUnique({
-      where: { id: payload.sub },
-      select: { avatar: true },
-    });
-
-    if (existingUser?.avatar && existingUser.avatar.startsWith("/avatars/")) {
-      try {
-        const oldFile = path.join(process.cwd(), "public", existingUser.avatar);
-        if (fs.existsSync(oldFile)) {
-          fs.unlinkSync(oldFile);
-        }
-      } catch (err) {
-        console.warn("Could not delete old avatar file:", err);
-      }
-    }
-
-    // 5. Save updated avatar in Database
+    // 4. Save updated avatar in Database
     const updatedUser = await prisma.user.update({
       where: { id: payload.sub },
       data: { avatar: avatarUrl },
@@ -172,20 +235,16 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Remove local file if exists
+    // Remove from Cloudinary if it's a Cloudinary URL
     const user = await prisma.user.findUnique({
       where: { id: payload.sub },
       select: { avatar: true },
     });
 
-    if (user?.avatar && user.avatar.startsWith("/avatars/")) {
-      try {
-        const oldFile = path.join(process.cwd(), "public", user.avatar);
-        if (fs.existsSync(oldFile)) {
-          fs.unlinkSync(oldFile);
-        }
-      } catch (err) {
-        console.warn("Could not delete old avatar file:", err);
+    if (user?.avatar) {
+      const publicId = extractCloudinaryPublicId(user.avatar);
+      if (publicId) {
+        await deleteFromCloudinary(publicId);
       }
     }
 

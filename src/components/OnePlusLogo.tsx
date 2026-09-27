@@ -2,77 +2,70 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
-export function OnePlusSignSvg({ className = "w-full h-full" }: { className?: string }) {
+export function KonYeungSignSvg({ className = "w-full h-full" }: { className?: string }) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 100 100"
-      className={className}
-      role="img"
-      aria-label="LensImpact Film Club Emblem"
-    >
-      {/* Red Rounded Square Base */}
-      <rect x="10" y="10" width="80" height="80" rx="18" fill="#EB0029" />
-
-      {/* Cinema Clapper Slanted Stripes (Top Edge) */}
-      <path d="M 22 20 L 32 20 L 26 30 L 22 30 Z" fill="#FFFFFF" />
-      <path d="M 40 20 L 50 20 L 44 30 L 34 30 Z" fill="#FFFFFF" />
-      <path d="M 58 20 L 68 20 L 62 30 L 52 30 Z" fill="#FFFFFF" />
-      <path d="M 76 20 L 78 20 L 78 24 L 72 30 L 70 30 Z" fill="#FFFFFF" />
-
-      {/* Film Frame Divider Line */}
-      <line x1="18" y1="33" x2="82" y2="33" stroke="#EB0029" strokeWidth="2" />
-
-      {/* Play Symbol (Movie Element) */}
-      <polygon points="42,44 42,72 66,58" fill="#FFFFFF" />
-
-      {/* Floating Badge */}
-      <circle cx="82" cy="18" r="11" fill="#FFFFFF" />
-      <path d="M 82 12 L 82 24 M 76 18 L 88 18" stroke="#EB0029" strokeWidth="3" strokeLinecap="round" />
-    </svg>
+    <div className={`relative overflow-hidden rounded-xl flex items-center justify-center ${className}`}>
+      <Image
+        src="/kon-yeung-icon.png"
+        alt="Kun Yeung Emblem"
+        fill
+        priority
+        className="object-contain"
+      />
+    </div>
   );
 }
 
-export const LensImpactSignSvg = OnePlusSignSvg;
+export const OnePlusSignSvg = KonYeungSignSvg;
+export const LensImpactSignSvg = KonYeungSignSvg;
 
-interface OnePlusLogoProps {
+interface KonYeungLogoProps {
   size?: "sm" | "md" | "lg" | "xl";
   showText?: boolean;
   href?: string;
   className?: string;
 }
 
-export function LensImpactLogo({
+export function KonYeungLogo({
   size = "md",
   showText = true,
   href = "/",
   className = "",
-}: OnePlusLogoProps) {
+}: KonYeungLogoProps) {
   // Dimensions map
   const dimensions = {
-    sm: { box: "w-7 h-7", text: "text-base", badge: "text-[9px] px-1.5 py-0.5" },
-    md: { box: "w-8 h-8 sm:w-9 sm:h-9", text: "text-lg sm:text-xl", badge: "text-[10px] sm:text-xs px-1.5 py-0.5" },
-    lg: { box: "w-10 h-10 sm:w-11 sm:h-11", text: "text-xl sm:text-2xl", badge: "text-xs px-2 py-0.5" },
-    xl: { box: "w-14 h-14", text: "text-3xl", badge: "text-sm px-2.5 py-1" },
+    sm: { box: "w-7 h-7 sm:w-8 sm:h-8", text: "text-sm sm:text-base", badge: "text-[9px] px-1 py-0.2" },
+    md: { box: "w-8 h-8 sm:w-9 sm:h-9", text: "text-base sm:text-lg", badge: "text-[10px] sm:text-xs px-1.5 py-0.5" },
+    lg: { box: "w-10 h-10 sm:w-12 sm:h-12", text: "text-lg sm:text-xl", badge: "text-xs px-2 py-0.5" },
+    xl: { box: "w-14 h-14 sm:w-16 sm:h-16", text: "text-2xl sm:text-3xl", badge: "text-sm px-2.5 py-1" },
   }[size];
 
   const content = (
     <div className={`flex items-center space-x-2.5 select-none group ${className}`}>
-      {/* Authentic Vector LensImpact Film Club SVG Emblem */}
-      <div className={`relative ${dimensions.box} flex-shrink-0 drop-shadow-[0_0_15px_rgba(235,0,41,0.5)] group-hover:scale-105 transition-transform duration-200`}>
-        <OnePlusSignSvg />
+      {/* 3D Golden Clapperboard Emblem */}
+      <div className={`relative ${dimensions.box} flex-shrink-0 drop-shadow-[0_0_16px_rgba(255,184,0,0.4)] group-hover:scale-105 transition-transform duration-300 rounded-xl overflow-hidden bg-black/40 border border-amber-500/20`}>
+        <Image
+          src="/kon-yeung-icon.png"
+          alt="Kun Yeung Logo"
+          fill
+          priority
+          className="object-contain p-0.5"
+        />
       </div>
 
-      {/* Typography: LENSIMPACT FILM CLUB */}
+      {/* Typography: Khmer 'កុន យើង' + English 'Kun Yeung' */}
       {showText && (
-        <div className="flex items-center space-x-2">
-          <span className={`font-black ${dimensions.text} tracking-wider text-white group-hover:text-white/95 transition-colors`}>
-            LENS<span className="text-[#EB0029]">IMPACT</span>
-          </span>
-          <span className={`font-bold ${dimensions.badge} tracking-widest text-[#EB0029] uppercase bg-[#EB0029]/15 rounded border border-[#EB0029]/30 shadow-xs whitespace-nowrap hidden min-[390px]:inline-block`}>
-            FILM CLUB
-          </span>
+        <div className="flex flex-col justify-center leading-tight">
+          <div className="flex items-center gap-1.5">
+            <span className={`font-black ${dimensions.text} tracking-tight text-white group-hover:text-white/95 transition-colors font-sans`}>
+              កុន យើង
+            </span>
+            <span className={`font-black ${dimensions.badge} tracking-wider uppercase rounded-md bg-gradient-to-r from-amber-500/20 to-yellow-500/20 text-[#FFB800] border border-[#FFB800]/40 shadow-[0_0_10px_rgba(255,184,0,0.15)] whitespace-nowrap`}>
+              Kun Yeung
+            </span>
+          </div>
         </div>
       )}
     </div>
@@ -89,4 +82,7 @@ export function LensImpactLogo({
   return content;
 }
 
-export default LensImpactLogo;
+export const LensImpactLogo = KonYeungLogo;
+export const OnePlusLogo = KonYeungLogo;
+
+export default KonYeungLogo;

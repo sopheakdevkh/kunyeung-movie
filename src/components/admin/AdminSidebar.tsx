@@ -57,11 +57,11 @@ export default function AdminSidebar() {
       {/* ========================================================= */}
       <div className="md:hidden sticky top-0 z-40 bg-[#0A0A0E]/95 backdrop-blur-md border-b border-white/10 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-2.5">
-          <div className="relative w-8 h-8 flex-shrink-0 drop-shadow-[0_0_12px_rgba(235,0,41,0.5)]">
+          <div className="relative w-8 h-8 flex-shrink-0 drop-shadow-[0_0_12px_rgba(255,184,0,0.5)]">
             <OnePlusSignSvg />
           </div>
           <div>
-            <span className="text-sm font-black text-white tracking-tight">LensImpact Admin</span>
+            <span className="text-sm font-black text-white tracking-tight">Kun Yeung Admin</span>
           </div>
         </div>
 
@@ -129,18 +129,18 @@ export default function AdminSidebar() {
       )}
 
       {/* ========================================================= */}
-      {/* DESKTOP SIDEBAR: Shown on md (768px) and above             */}
+      {/* DESKTOP SIDEBAR: Shown on md (768px) and above (Fixed)     */}
       {/* ========================================================= */}
-      <aside className="hidden md:flex w-64 bg-[#0A0A0E] border-r border-white/10 flex-col justify-between p-6 select-none min-h-screen flex-shrink-0">
+      <aside className="hidden md:flex fixed top-0 left-0 bottom-0 w-64 h-screen bg-[#0A0A0E] border-r border-white/10 flex-col justify-between p-6 select-none z-30 overflow-y-auto">
         <div>
           {/* Brand & Admin Badge */}
           <div className="flex items-center space-x-3 mb-8">
-            <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-[0_0_15px_rgba(235,0,41,0.5)]">
+            <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-[0_0_15px_rgba(255,184,0,0.5)]">
               <OnePlusSignSvg />
             </div>
             <div>
-              <h1 className="text-base font-black text-white tracking-tight">LensImpact Film Club</h1>
-              <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#EB0029]">
+              <h1 className="text-base font-black text-white tracking-tight">Kun Yeung (កុន យើង)</h1>
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#FFB800]">
                 Admin Console
               </p>
             </div>

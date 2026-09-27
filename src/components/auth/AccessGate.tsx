@@ -204,13 +204,13 @@ export default function AccessGate({
         {/* Centered Paywall Card & Overlay */}
         <div className="relative z-10 -mt-10 sm:-mt-12 px-6 pb-8 pt-2 flex flex-col items-center text-center">
           <div className="max-w-lg w-full p-6 rounded-2xl bg-[#141622]/90 backdrop-blur-md border border-white/10 shadow-[0_10px_35px_rgba(0,0,0,0.6)] space-y-4">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-[11px] font-extrabold uppercase tracking-wider shadow-[0_0_15px_rgba(255,85,0,0.2)]">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-[#FFB800] text-[11px] font-extrabold uppercase tracking-wider shadow-[0_0_15px_rgba(255,184,0,0.2)]">
               <Lock className="w-3 h-3" />
-              <span>LensImpact Club Exclusive</span>
+              <span>Kun Yeung VIP Exclusive</span>
             </div>
 
             <h3 className="text-base sm:text-xl font-black text-white tracking-tight leading-snug">
-              Unlock the full Impact &amp; Lesson Guide. Join LensImpact Club for $4.99/mo
+              Unlock the full Impact &amp; Lesson Guide. Join Kun Yeung VIP for $4.99/mo
             </h3>
 
             <p className="text-xs text-[#8E8E93] leading-relaxed">
@@ -221,9 +221,9 @@ export default function AccessGate({
             <div className="pt-1 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/pricing"
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-[#FF5500] to-[#EB0029] hover:from-[#ff6a1f] hover:to-[#ff1940] text-white text-xs sm:text-sm font-bold shadow-[0_0_25px_rgba(255,85,0,0.4)] hover:shadow-[0_0_35px_rgba(255,85,0,0.6)] transition-all flex items-center justify-center space-x-2"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-[#FF5500] to-[#EB0029] hover:brightness-110 text-white text-xs sm:text-sm font-bold shadow-[0_0_25px_rgba(255,184,0,0.4)] transition-all flex items-center justify-center space-x-2"
               >
-                <span>Join LensImpact Club</span>
+                <span>Join Kun Yeung VIP</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </Link>
             </div>

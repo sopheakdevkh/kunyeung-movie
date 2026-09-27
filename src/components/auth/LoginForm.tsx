@@ -163,10 +163,10 @@ export default function LoginForm() {
           {/* Switch to Register */}
           <div className="pt-4 border-t border-white/10 text-center">
             <p className="text-xs text-[#8E8E93]">
-              New to LensImpact?{" "}
+              New to Kun Yeung?{" "}
               <Link
                 href={redirectParam ? `/register?redirect=${encodeURIComponent(redirectParam)}` : "/register"}
-                className="font-bold text-white hover:text-[#EB0029] transition-colors underline underline-offset-4"
+                className="font-bold text-white hover:text-[#FFB800] transition-colors underline underline-offset-4"
               >
                 Join Free
               </Link>
